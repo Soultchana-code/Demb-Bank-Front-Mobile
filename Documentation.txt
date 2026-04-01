@@ -1,0 +1,247 @@
+lib/
+├── core/
+│   ├── constants/
+│   │   ├── app_constants.dart          // URLs, clés, seuils
+│   │   ├── route_names.dart             // Noms des routes (pour GoRouter)
+│   │   └── enums.dart                   // Énumérations globales (type de carte, etc.)
+│   ├── themes/
+│   │   ├── app_theme.dart                // Thème clair/sombre
+│   │   ├── colors.dart                   // Palette de couleurs
+│   │   └── text_styles.dart               // Styles de texte réutilisables
+│   ├── utils/
+│   │   ├── currency_formatter.dart        // Formatage des montants (XOF, EUR, etc.)
+│   │   ├── date_formatter.dart             // Formatage des dates
+│   │   ├── validators.dart                 // Validation des formulaires
+│   │   └── extensions/                     // Extensions sur types Dart
+│   ├── widgets/
+│   │   ├── djembe_button.dart              // Bouton personnalisé
+│   │   ├── djembe_app_bar.dart              // Barre d’application commune
+│   │   ├── transaction_tile.dart            // Ligne de transaction réutilisable
+│   │   ├── category_icon.dart               // Icône de catégorie de dépense
+│   │   └── loading_indicator.dart
+│   ├── services/
+│   │   ├── navigation_service.dart          // Service pour navigation hors widget (intercepteurs)
+│   │   ├── dialog_service.dart               // Afficher des dialogues génériques
+│   │   └── secure_storage_service.dart       // Wrapper pour flutter_secure_storage
+│   └── network/
+│       ├── api_client.dart                   // Dio configuré (baseUrl, intercepteurs)
+│       ├── auth_interceptor.dart              // Intercepteur JWT + refresh
+│       ├── logging_interceptor.dart
+│       └── endpoints.dart                     // Liste des endpoints (optionnel)
+│
+├── features/
+│   ├── auth/                                 // Authentification (connexion, inscription, OTP)
+│   │   ├── data/
+│   │   │   ├── datasources/
+│   │   │   │   ├── auth_remote_datasource.dart
+│   │   │   │   └── auth_local_datasource.dart   (pour stocker le statut)
+│   │   │   ├── models/
+│   │   │   │   ├── user_model.dart
+│   │   │   │   └── login_request_model.dart
+│   │   │   └── repositories/
+│   │   │       └── auth_repository_impl.dart
+│   │   ├── domain/
+│   │   │   ├── entities/
+│   │   │   │   └── user.dart
+│   │   │   ├── repositories/
+│   │   │   │   └── auth_repository.dart        (interface)
+│   │   │   └── usecases/
+│   │   │       ├── login_usecase.dart
+│   │   │       ├── logout_usecase.dart
+│   │   │       └── check_auth_status_usecase.dart
+│   │   └── presentation/
+│   │       ├── cubit/
+│   │       │   ├── auth_cubit.dart
+│   │       │   └── auth_state.dart
+│   │       ├── pages/
+│   │       │   ├── login_page.dart
+│   │       │   ├── register_page.dart
+│   │       │   ├── otp_verification_page.dart
+│   │       │   └── forgot_password_page.dart
+│   │       └── widgets/
+│   │           └── auth_form.dart
+│   │
+│   ├── dashboard/                            // Accueil (maquette 1 et 2)
+│   │   ├── data/
+│   │   │   ├── datasources/
+│   │   │   │   ├── dashboard_remote_datasource.dart   // Appels API pour résumé
+│   │   │   │   └── dashboard_local_datasource.dart
+│   │   │   ├── models/
+│   │   │   │   ├── account_summary_model.dart
+│   │   │   │   ├── recent_transaction_model.dart
+│   │   │   │   └── savings_goal_model.dart
+│   │   │   └── repositories/
+│   │   │       └── dashboard_repository_impl.dart
+│   │   ├── domain/
+│   │   │   ├── entities/
+│   │   │   │   ├── account_summary.dart
+│   │   │   │   ├── recent_transaction.dart
+│   │   │   │   └── savings_goal.dart
+│   │   │   ├── repositories/
+│   │   │   │   └── dashboard_repository.dart
+│   │   │   └── usecases/
+│   │   │       ├── get_account_summary_usecase.dart
+│   │   │       ├── get_recent_transactions_usecase.dart
+│   │   │       ├── get_savings_goals_usecase.dart
+│   │   │       └── refresh_dashboard_usecase.dart
+│   │   └── presentation/
+│   │       ├── cubit/
+│   │       │   ├── dashboard_cubit.dart
+│   │       │   └── dashboard_state.dart
+│   │       ├── pages/
+│   │       │   └── dashboard_page.dart          // Écran avec solde, actions, opérations récentes, épargne
+│   │       └── widgets/
+│   │           ├── balance_card.dart
+│   │           ├── quick_actions_row.dart
+│   │           ├── recent_transactions_list.dart
+│   │           └── savings_goal_card.dart
+│   │
+│   ├── accounts/                              // Détail d'un compte et historique
+│   │   ├── data/
+│   │   │   ├── datasources/... (account_remote_datasource)
+│   │   │   ├── models/...
+│   │   │   └── repositories/...
+│   │   ├── domain/
+│   │   │   ├── entities/...
+│   │   │   ├── repositories/...
+│   │   │   └── usecases/...
+│   │   └── presentation/
+│   │       ├── cubit/ (account_detail_cubit, transactions_cubit)
+│   │       ├── pages/
+│   │       │   ├── account_detail_page.dart     // Détail avec opérations (maquette 4)
+│   │       │   └── transactions_history_page.dart
+│   │       └── widgets/...
+│   │
+│   ├── cards/                                  // Gestion des cartes (maquettes 3 et 5)
+│   │   ├── data/
+│   │   │   ├── datasources/
+│   │   │   │   └── cards_remote_datasource.dart
+│   │   │   ├── models/
+│   │   │   │   ├── card_model.dart
+│   │   │   │   └── card_settings_model.dart
+│   │   │   └── repositories/
+│   │   │       └── cards_repository_impl.dart
+│   │   ├── domain/
+│   │   │   ├── entities/
+│   │   │   │   ├── card.dart
+│   │   │   │   └── card_settings.dart
+│   │   │   ├── repositories/
+│   │   │   │   └── cards_repository.dart
+│   │   │   └── usecases/
+│   │   │       ├── get_cards_usecase.dart
+│   │   │       ├── toggle_card_lock_usecase.dart
+│   │   │       ├── update_card_limit_usecase.dart
+│   │   │       └── change_pin_usecase.dart
+│   │   └── presentation/
+│   │       ├── cubit/
+│   │       │   ├── cards_cubit.dart
+│   │       │   └── card_detail_cubit.dart
+│   │       ├── pages/
+│   │       │   ├── cards_page.dart               // Liste des cartes (physique/virtuelle)
+│   │       │   ├── card_detail_page.dart          // Détail avec verrouillage, paramètres, PIN (maquette 5)
+│   │       │   └── card_settings_page.dart
+│   │       └── widgets/
+│   │           ├── card_widget.dart               // Représentation graphique de la carte
+│   │           └── card_action_button.dart
+│   │
+│   ├── budget/                                  // Budget et objectifs (maquettes 6, 7)
+│   │   ├── data/
+│   │   │   ├── datasources/...
+│   │   │   ├── models/
+│   │   │   │   ├── category_spending_model.dart
+│   │   │   │   └── savings_goal_model.dart
+│   │   │   └── repositories/
+│   │   │       └── budget_repository_impl.dart
+│   │   ├── domain/
+│   │   │   ├── entities/
+│   │   │   │   ├── category_spending.dart
+│   │   │   │   └── savings_goal.dart
+│   │   │   ├── repositories/
+│   │   │   │   └── budget_repository.dart
+│   │   │   └── usecases/
+│   │   │       ├── get_monthly_spending_usecase.dart
+│   │   │       ├── get_savings_goals_usecase.dart
+│   │   │       └── add_savings_contribution_usecase.dart
+│   │   └── presentation/
+│   │       ├── cubit/
+│   │       │   ├── budget_cubit.dart
+│   │       │   └── savings_goals_cubit.dart
+│   │       ├── pages/
+│   │       │   ├── budget_page.dart              // Récap des dépenses du mois
+│   │       │   └── savings_goals_page.dart       // Détail des objectifs
+│   │       └── widgets/
+│   │           ├── spending_category_chart.dart  // (peut être un graphique)
+│   │           ├── savings_goal_progress.dart
+│   │           └── add_goal_dialog.dart
+│   │
+│   ├── circle/                                   // Cercle / cagnottes / parrainage (maquette 9)
+│   │   ├── data/
+│   │   │   ├── datasources/...
+│   │   │   ├── models/
+│   │   │   │   ├── pot_model.dart
+│   │   │   │   ├── friend_model.dart
+│   │   │   │   └── referral_model.dart
+│   │   │   └── repositories/
+│   │   │       └── circle_repository_impl.dart
+│   │   ├── domain/
+│   │   │   ├── entities/
+│   │   │   │   ├── pot.dart
+│   │   │   │   ├── friend.dart
+│   │   │   │   └── referral.dart
+│   │   │   ├── repositories/
+│   │   │   │   └── circle_repository.dart
+│   │   │   └── usecases/
+│   │   │       ├── get_active_pots_usecase.dart
+│   │   │       ├── get_recent_friends_usecase.dart
+│   │   │       └── share_referral_code_usecase.dart
+│   │   └── presentation/
+│   │       ├── cubit/
+│   │       │   ├── circle_cubit.dart
+│   │       │   └── referral_cubit.dart
+│   │       ├── pages/
+│   │       │   └── circle_page.dart               // Vue d'ensemble (cagnottes, amis, parrainage)
+│   │       └── widgets/
+│   │           ├── pot_card.dart
+│   │           ├── friend_avatar_list.dart
+│   │           └── referral_code_share.dart
+│   │
+│   └── profile/                                  // Profil utilisateur (maquette 8)
+│       ├── data/
+│       │   ├── datasources/...
+│       │   ├── models/
+│       │   │   ├── user_profile_model.dart
+│       │   │   └── settings_model.dart
+│       │   └── repositories/
+│       │       └── profile_repository_impl.dart
+│       ├── domain/
+│       │   ├── entities/
+│       │   │   ├── user_profile.dart
+│       │   │   └── settings.dart
+│       │   ├── repositories/
+│       │   │   └── profile_repository.dart
+│       │   └── usecases/
+│       │       ├── get_profile_usecase.dart
+│       │       ├── update_profile_usecase.dart
+│       │       ├── update_security_settings_usecase.dart
+│       │       ├── get_notification_settings_usecase.dart
+│       │       └── logout_usecase.dart   (peut être délégué à auth)
+│       └── presentation/
+│           ├── cubit/
+│           │   ├── profile_cubit.dart
+│           │   └── settings_cubit.dart
+│           ├── pages/
+│           │   ├── profile_page.dart              // Écran principal du profil
+│           │   ├── personal_info_page.dart
+│           │   ├── security_page.dart
+│           │   ├── notifications_page.dart
+│           │   ├── preferences_page.dart
+│           │   └── help_support_page.dart
+│           └── widgets/
+│               ├── profile_header.dart
+│               └── settings_tile.dart
+│
+├── injection/                                    // Injection de dépendances (GetIt + Injectable)
+│   ├── injection_container.dart
+│   └── injection.config.dart                     // Généré par injectable
+│
+└── main.dart
