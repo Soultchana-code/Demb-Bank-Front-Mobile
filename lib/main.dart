@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:djembe_bank_mobile/injection/injection_container.dart' as di;
+import 'package:djembe_bank_mobile/features/main/pages/main_wrapper.dart';
 
+import 'package:djembe_bank_mobile/injection/injection_container.dart' as di;
 import 'package:djembe_bank_mobile/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:djembe_bank_mobile/features/auth/presentation/pages/login_page.dart';
-import 'package:djembe_bank_mobile/features/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:djembe_bank_mobile/features/dashboard/presentation/cubit/dashboard_cubit.dart';
 
 void main() async {
@@ -26,7 +26,20 @@ class MyApp extends StatelessWidget {
       value: authCubit,
       child: MaterialApp(
         title: 'Djembé Bank',
-        theme: ThemeData(primarySwatch: Colors.blue),
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+            elevation: 0,
+            centerTitle: false,
+            titleTextStyle: TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
         home: const AuthWrapper(),
       ),
     );
@@ -60,16 +73,15 @@ class _AuthWrapperState extends State<AuthWrapper> {
         }
         final hasToken = snapshot.data ?? false;
 
-        if (hasToken) {
-          // Créer le BlocProvider avec le cubit, sans appeler loadDashboard ici
-          return BlocProvider(
-            create: (_) => di.getIt<DashboardCubit>(),
-            child: const DashboardPage(),
-          );
-        } else {
-          // AuthCubit est déjà fourni globalement
-          return const LoginPage();
-        }
+      if (hasToken) {
+      return BlocProvider(
+        create: (_) => di.getIt<DashboardCubit>(),
+        child: const MainWrapper(),
+      );
+      } else {
+        // AuthCubit est déjà fourni globalement
+        return const LoginPage();
+      }
       },
     );
   }

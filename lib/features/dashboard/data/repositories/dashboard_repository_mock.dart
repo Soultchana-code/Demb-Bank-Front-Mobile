@@ -1,6 +1,6 @@
+import 'package:djembe_bank_mobile/features/dashboard/domain/entities/savings_goal.dart';
 import 'package:djembe_bank_mobile/features/dashboard/domain/entities/account_summary.dart';
 import 'package:djembe_bank_mobile/features/dashboard/domain/entities/recent_transaction.dart';
-import 'package:djembe_bank_mobile/features/dashboard/domain/entities/savings_goal.dart';
 import 'package:djembe_bank_mobile/features/dashboard/domain/repositories/dashboard_repository.dart';
 
 class DashboardRepositoryMock implements DashboardRepository {
@@ -42,7 +42,7 @@ class DashboardRepositoryMock implements DashboardRepository {
 
   @override
   Future<List<SavingsGoal>> getSavingsGoals() {
-    // TODO: implement getSavingsGoals
+  
     throw UnimplementedError();
   }
 }

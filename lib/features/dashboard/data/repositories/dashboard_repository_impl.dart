@@ -28,7 +28,6 @@ class DashboardRepositoryImpl implements DashboardRepository {
         );
       }).toList();
     } catch (e) {
-      print('Erreur getAccounts: $e'); // Pour voir l'erreur
       throw Exception('Erreur chargement comptes : $e');
     }
   }
@@ -48,11 +47,14 @@ class DashboardRepositoryImpl implements DashboardRepository {
         );
       }).toList();
     } catch (e) {
-      print('Erreur getRecentTransactions: $e');
       throw Exception('Erreur chargement transactions : $e');
     }
   }
 
   @override
-  Future<List<SavingsGoal>> getSavingsGoals() async => [];
+  Future<List<SavingsGoal>> getSavingsGoals() async {
+    // Endpoint à confirmer avec le backend (ex: /api/v1/budget/goals)
+    // Si non disponible, retourner une liste vide
+    return [];
+  }
 }

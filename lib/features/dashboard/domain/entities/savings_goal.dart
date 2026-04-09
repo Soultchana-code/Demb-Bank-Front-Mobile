@@ -15,4 +15,6 @@ class SavingsGoal extends Equatable {
 
   @override
   List<Object?> get props => [id, name, target, current];
+
+  Null get progress => null;
 }
